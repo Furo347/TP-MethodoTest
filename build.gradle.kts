@@ -4,7 +4,7 @@ plugins {
 	id("org.springframework.boot") version "3.4.4"
 	id("io.spring.dependency-management") version "1.1.7"
 	jacoco
-	id("info.solidsoft.pitest") version "1.9.11"
+	id("info.solidsoft.pitest") version "1.15.0" // Remplacez par la dernière version stable
 }
 
 group = "com.projet1"
@@ -68,7 +68,7 @@ tasks.jacocoTestCoverageVerification {
 }
 
 pitest {
-	//junit5PluginVersion.set("1.1.0")
+	junit5PluginVersion.set("1.1.0")
 	jvmArgs.set(listOf("-target", "21")) // Indique à PITest d'utiliser Java 21
 	targetClasses.set(listOf("com.projet1.*"))
 	targetTests.set(listOf("com.projet1.*"))
