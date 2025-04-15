@@ -15,18 +15,18 @@ jobs:
     steps:
       # Vérification du code source
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Configuration de JDK
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
       # Mise en cache des dépendances Gradle
       - name: Cache Gradle dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
@@ -50,7 +50,7 @@ jobs:
 
       # Publication des rapports de couverture
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: build/reports/jacoco/test/html
@@ -61,7 +61,7 @@ jobs:
 
       # Publication des rapports de mutation
       - name: Upload Mutation Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mutation-test-report
           path: build/reports/pitest
