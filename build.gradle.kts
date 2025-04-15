@@ -68,11 +68,12 @@ tasks.jacocoTestCoverageVerification {
 }
 
 pitest {
-	junit5PluginVersion.set("1.1.0") // Assurez-vous que cette version est compatible
-	targetClasses.set(listOf("com.projet1.*")) // Spécifiez les classes cibles pour les tests de mutation
-	targetTests.set(listOf("com.projet1.*")) // Spécifiez les tests cibles
-	mutators.set(listOf("DEFAULTS")) // Utilise les mutateurs par défaut
-	threads.set(4) // Nombre de threads pour exécuter les tests
-	outputFormats.set(listOf("HTML", "XML")) // Formats de rapport
-	timestampedReports.set(false) // Désactive les rapports horodatés
+	junit5PluginVersion.set("1.1.0")
+	jvmArgs.set(listOf("-target", "21")) // Indique à PITest d'utiliser Java 21
+	targetClasses.set(listOf("com.projet1.*"))
+	targetTests.set(listOf("com.projet1.*"))
+	mutators.set(listOf("DEFAULTS"))
+	threads.set(4)
+	outputFormats.set(listOf("HTML", "XML"))
+	timestampedReports.set(false)
 }
