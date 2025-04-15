@@ -68,7 +68,7 @@ tasks.jacocoTestCoverageVerification {
 }
 
 pitest {
-	junit5PluginVersion.set("1.1.0")
+	//junit5PluginVersion.set("1.1.0")
 	jvmArgs.set(listOf("-target", "21")) // Indique à PITest d'utiliser Java 21
 	targetClasses.set(listOf("com.projet1.*"))
 	targetTests.set(listOf("com.projet1.*"))
