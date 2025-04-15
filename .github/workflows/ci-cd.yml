@@ -1,0 +1,67 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Vérification du code source
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Configuration de JDK
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # Mise en cache des dépendances Gradle
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Construction et tests
+      - name: Build and Test
+        run: ./gradlew build
+
+      # Publication des résultats des tests
+      - name: Publish Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: build/test-results
+
+      # Exécution des tests avec JaCoCo
+      - name: Run Tests with JaCoCo
+        run: ./gradlew test jacocoTestReport
+
+      # Publication des rapports de couverture
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: build/reports/jacoco/test/html
+
+      # Exécution des tests de mutation avec PIT
+      - name: Run Mutation Tests with PIT
+        run: ./gradlew pitest
+
+      # Publication des rapports de mutation
+      - name: Upload Mutation Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: mutation-test-report
+          path: build/reports/pitest
