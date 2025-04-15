@@ -33,6 +33,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      # Permission de Git hub pour build
+      - name: Give execute permission to gradlew
+        run: chmod +x ./gradlew
+
       # Construction et tests
       - name: Build and Test
         run: ./gradlew build
