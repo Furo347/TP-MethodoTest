@@ -4,7 +4,7 @@ plugins {
 	id("org.springframework.boot") version "3.4.4"
 	id("io.spring.dependency-management") version "1.1.7"
 	jacoco
-	id("info.solidsoft.pitest") version "1.15.0" // Remplacez par la dernière version stable
+	id("info.solidsoft.pitest") version "1.15.0"
 }
 
 group = "com.projet1"
@@ -30,6 +30,7 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testImplementation("io.kotest:kotest-property:5.9.1")
 	testImplementation("io.mockk:mockk:1.13.5")
+	pitest("org.pitest:pitest-junit5-plugin:1.2.1")
 }
 
 kotlin {
@@ -68,14 +69,10 @@ tasks.jacocoTestCoverageVerification {
 }
 
 pitest {
-	junit5PluginVersion.set("1.1.0")
-	targetClasses.set(listOf("com.projet1.*"))
-	targetTests.set(listOf("com.projet1.*"))
-	mutators.set(listOf("DEFAULTS"))
+	targetClasses.set(listOf("com.projet1.TP1.*"))
+	testSourceSets.set(listOf(sourceSets.test.get()))
+	mainSourceSets.set(listOf(sourceSets.main.get()))
 	threads.set(4)
-	outputFormats.set(listOf("HTML", "XML"))
-	timestampedReports.set(false)
-	jvmPath.set(javaToolchains.launcherFor {
-		languageVersion.set(JavaLanguageVersion.of(21))
-	}.map { it.executablePath })
+	outputFormats.set(listOf("HTML"))
+	jvmArgs.set(listOf("--add-opens", "java.base/java.lang=ALL-UNNAMED"))
 }
